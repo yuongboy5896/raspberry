@@ -10,7 +10,16 @@ typedef unsigned long uint32;
  
 int pinNumber = 7;
 uint32 databuf;
-  
+typedef  unsigned char *byte_pointer;
+void show_byte(byte_pointer start, size_t len){
+    size_t  i;
+    for (size_t i = 0; i < len; i++)
+    {
+        /* code */
+        printf("%.2x", start[i]);
+    }
+    printf("\n");    
+}
 uint8 readSensorData(void)
 {
     uint8 crc; 
@@ -42,7 +51,8 @@ uint8 readSensorData(void)
                 databuf++;
             }
         }
- 
+        printf("databuf:");
+        show_byte((byte_pointer) &databuf, sizeof(databuf));
         for (i = 0; i < 8; i++)
         {
             while (digitalRead(pinNumber))
@@ -55,6 +65,16 @@ uint8 readSensorData(void)
             {
                 crc++;
             }
+        }
+        int tmp = (databuf>>24& 0xff) +(databuf>>16 & 0xff )+(databuf>>8 & 0xff) + (databuf & 0xff);
+        printf("tmp:");
+        show_byte((byte_pointer) &tmp, sizeof(tmp));
+        printf("crc:");
+        show_byte((byte_pointer) &crc, sizeof(crc));
+        if(tmp != crc )
+        {
+            printf("validate errr\n");
+            return 0;
         }
         return 1;
     }
