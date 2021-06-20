@@ -11,7 +11,8 @@ sudo apt-get install git-core
 
 
 
-#下载 wiringPi
+# 下载 wiringPi
+
 git clone https://github.com/WiringPi/WiringPi
 #编译 wiringPi
 cd WiringPi
@@ -23,4 +24,8 @@ sudo ./build
 gcc -Wall -o dht11 dht11.c -lwiringPi
 sudo ./dht11
 ```
+
+
+
+# 实验原理
 
